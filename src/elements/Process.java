@@ -1,3 +1,8 @@
+package elements;
+
+import elements.distribution.Distribution;
+import elements.state.MachineState;
+
 public class Process extends Element {
 
     private int queue, maxqueue, failure;

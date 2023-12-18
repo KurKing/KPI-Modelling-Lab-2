@@ -1,3 +1,5 @@
+package elements.distribution;
+
 import java.util.Random;
 
 public class FunRand {

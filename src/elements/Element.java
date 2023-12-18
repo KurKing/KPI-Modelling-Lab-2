@@ -1,9 +1,12 @@
+package elements;
+
+import elements.distribution.Distribution;
+import elements.distribution.FunRand;
+import elements.state.MachineState;
+
 public class Element {
 
-    private static int nextId = 0;
-
     private final String name;
-    private final int id;
     private final Distribution distribution;
 
     protected Element nextElement;
@@ -21,14 +24,11 @@ public class Element {
         this.distribution = distribution;
         state = MachineState.UNLOCKED;
 
-        id = nextId;
-        nextId++;
-
         tnext = 0.0;
         delayMean = delay;
         tcurr = tnext;
 
-        nextElement=null;
+        nextElement = null;
     }
 
     protected double getDelay() {
@@ -58,18 +58,14 @@ public class Element {
     }
     public void inAct() {
     }
-    public void outAct(){
+    public void outAct() {
         quantity++;
     }
     public double getTnext() {
         return tnext;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void printResult(){
+    public void printResult() {
         System.out.println(getName()+ " quantity = "+ quantity);
     }
     public void printInfo(){

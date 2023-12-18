@@ -1,3 +1,7 @@
+package elements;
+
+import elements.distribution.Distribution;
+
 public class Create extends Element {
 
     public Create(double delay, String name, Distribution distribution) {

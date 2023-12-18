@@ -1,3 +1,5 @@
+package elements.state;
+
 public enum MachineState {
 
     LOCKED,

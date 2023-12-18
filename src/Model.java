@@ -1,59 +1,66 @@
-import java.util.ArrayList;
+import elements.Element;
+import elements.Process;
+
 import java.util.List;
 
 public class Model {
 
-    private List<Element> list;
-    double tnext, tcurr;
+    public static void simulate(List<Element> list, double time) {
 
-    int event;
-
-    public Model(List<Element> elements) {
-
-        list = elements;
-        tnext = 0.0;
-        event = 0;
-        tcurr = tnext;
-    }
-
-    public void simulate(double time) {
+        double tcurr = 0.0;
+        Element nextElement = null;
 
         while (tcurr < time) {
 
-            tnext = Double.MAX_VALUE;
+            double tnext = Double.MAX_VALUE;
 
             for (Element e : list) {
+
                 if (e.getTnext() < tnext) {
+
                     tnext = e.getTnext();
-                    event = e.getId();
+                    nextElement = e;
                 }
-            }
-            System.out.println("\nIt's time for event in " +
-                    list.get(event).getName() +
-                    ", time = " + tnext);
-            for (Element e : list) {
+
                 e.doStatistics(tnext - tcurr);
             }
+
+            printEventTime(nextElement.getName(), tnext);
+
             tcurr = tnext;
+
+            for (Element e : list) {  e.setTcurr(tcurr); }
+
+            nextElement.outAct();
+
             for (Element e : list) {
-                e.setTcurr(tcurr);
-            }
-            list.get(event).outAct();
-            for (Element e : list) {
+
                 if (e.getTnext() == tcurr) {
+
                     e.outAct();
                 }
+
+                e.printInfo();
             }
-            for (Element e : list) { e.printInfo(); }
         }
-        printResult();
+
+        printResult(list, tcurr);
     }
 
-    public void printResult() {
+    private static void printEventTime(String eventName, double tnext) {
+
+        System.out.println("\nIt's time for event in "+eventName+", time = "+tnext);
+    }
+
+    private static void printResult(List<Element> list,double tcurr) {
+
         System.out.println("\n-------------RESULTS-------------");
+
         for (Element e : list) {
+
             e.printResult();
             if (e instanceof Process) {
+
                 Process p = (Process) e;
                 System.out.println("mean length of queue = " +
                         p.getMeanQueue() / tcurr
