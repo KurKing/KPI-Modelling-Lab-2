@@ -1,13 +1,17 @@
 public class Create extends Element {
 
-    public Create(double delay) {
-        super(delay);
-        super.setTnext(0.0); // імітація розпочнеться з події Create
+    public Create(double delay, String name, Distribution distribution) {
+
+        super(delay, name, distribution);
+
+        tnext = 0.0;
     }
     @Override
     public void outAct() {
+
         super.outAct();
-        super.setTnext(super.getTcurr() + super.getDelay());
-        super.getNextElement().inAct();
+
+        tnext = tcurr + getDelay();
+        nextElement.inAct();
     }
 }

@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Model {
-    private ArrayList<Element> list = new ArrayList<>();
+    private List<Element> list;
     double tnext, tcurr;
     int event;
-    public Model(ArrayList<Element> elements) {
+    public Model(List<Element> elements) {
         list = elements;
         tnext = 0.0;
         event = 0;

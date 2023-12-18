@@ -1,24 +1,14 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        Create c = new Create(2.0);
-        Process p = new Process(1.0);
+        Create c = new Create(2.0, "CREATOR", Distribution.EXPONENTIAL);
+        Process p = new Process(10.0, "PROCESSOR", Distribution.EXPONENTIAL);
 
-        System.out.println("id0 = " + c.getId() + " id1=" + p.getId());
         c.setNextElement(p);
         p.setMaxqueue(5);
-        c.setName("CREATOR");
-        p.setName("PROCESSOR");
-        c.setDistribution("exp");
-        p.setDistribution("exp");
 
-        ArrayList<Element> list = new ArrayList<>();
-        list.add(c);
-        list.add(p);
-
-        Model model = new Model(list);
-        model.simulate(1000.0);
+        new Model(List.of(c, p)).simulate(1000.0);
     }
 }
