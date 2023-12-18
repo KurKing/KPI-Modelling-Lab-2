@@ -7,19 +7,19 @@ public class Element {
     private final Distribution distribution;
 
     protected Element nextElement;
+    protected MachineState state;
 
     protected double tnext;
     protected double delayMean, delayDev;
     protected double tcurr;
-    protected int state;
 
     private int quantity;
-
 
     public Element(double delay, String name, Distribution distribution){
 
         this.name = name;
         this.distribution = distribution;
+        state = MachineState.UNLOCKED;
 
         id = nextId;
         nextId++;
@@ -27,7 +27,6 @@ public class Element {
         tnext = 0.0;
         delayMean = delay;
         tcurr = tnext;
-        state = 0;
 
         nextElement=null;
     }
@@ -49,17 +48,9 @@ public class Element {
     public int getQuantity() {
         return quantity;
     }
-    public double getTcurr() {
-        return tcurr;
-    }
+
     public void setTcurr(double tcurr) {
         this.tcurr = tcurr;
-    }
-    public int getState() {
-        return state;
-    }
-    public void setState(int state) {
-        this.state = state;
     }
 
     public void setNextElement(Element nextElement) {
@@ -73,15 +64,7 @@ public class Element {
     public double getTnext() {
         return tnext;
     }
-    public void setTnext(double tnext) {
-        this.tnext = tnext;
-    }
-    public double getDelayMean() {
-        return delayMean;
-    }
-    public void setDelayMean(double delayMean) {
-        this.delayMean = delayMean;
-    }
+
     public int getId() {
         return id;
     }
@@ -90,9 +73,9 @@ public class Element {
         System.out.println(getName()+ " quantity = "+ quantity);
     }
     public void printInfo(){
-        System.out.println(getName()+ " state= " +state+
-                " quantity = "+ quantity+
-                " tnext= "+tnext);
+        System.out.println(getName()+ " state = "+state+
+                " quantity = "+quantity+
+                " tnext = "+tnext);
     }
     public String getName() {
         return name;

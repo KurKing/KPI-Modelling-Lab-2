@@ -11,18 +11,28 @@ public class Process extends Element {
         maxqueue = Integer.MAX_VALUE;
         meanQueue = 0.0;
     }
+
+    public void setMaxqueue(int maxqueue) {
+        this.maxqueue = maxqueue;
+    }
+
     @Override
     public void inAct() {
 
-        if (getState() == 0) {
+        switch (state) {
+            case LOCKED -> {
 
-            setState(1);
-            setTnext(getTcurr() + getDelay());
-        } else {
-            if (getQueue() < getMaxqueue()) {
-                setQueue(getQueue() + 1);
-            } else {
+                if (queue < maxqueue) {
+
+                    queue += 1;
+                    return;
+                }
                 failure++;
+            }
+            case UNLOCKED -> {
+
+                state = MachineState.LOCKED;
+                tnext = tcurr + getDelay();
             }
         }
     }
@@ -31,31 +41,17 @@ public class Process extends Element {
 
         super.outAct();
 
-        setTnext(Double.MAX_VALUE);
-        setState(0);
+        tnext = Double.MAX_VALUE;
+        state = MachineState.UNLOCKED;
 
-        if (getQueue() > 0) {
+        if (queue > 0) {
 
-            setQueue(getQueue() - 1);
-            setState(1);
-            setTnext(getTcurr() + getDelay());
+            queue -= 1;
+            tnext = tcurr + getDelay();
+            state = MachineState.LOCKED;
         }
     }
-    public int getFailure() {
-        return failure;
-    }
-    public int getQueue() {
-        return queue;
-    }
-    public void setQueue(int queue) {
-        this.queue = queue;
-    }
-    public int getMaxqueue() {
-        return maxqueue;
-    }
-    public void setMaxqueue(int maxqueue) {
-        this.maxqueue = maxqueue;
-    }
+
     @Override
     public void printInfo() {
         super.printInfo();
@@ -65,7 +61,12 @@ public class Process extends Element {
     public void doStatistics(double delta) {
         meanQueue += queue * delta;
     }
+
     public double getMeanQueue() {
         return meanQueue;
+    }
+
+    public int getFailure() {
+        return failure;
     }
 }
