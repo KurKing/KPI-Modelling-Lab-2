@@ -6,7 +6,7 @@ import elements.state.MachineState;
 public class Process extends Element {
 
     private int queue, maxqueue, failure;
-    private double meanQueue;
+    private double meanQueue, meanLocked;
 
     public Process(double delay, String name, Distribution distribution) {
 
@@ -65,10 +65,19 @@ public class Process extends Element {
     @Override
     public void doStatistics(double delta) {
         meanQueue += queue * delta;
+
+        if (state == MachineState.LOCKED) {
+
+            meanLocked += delta;
+        }
     }
 
     public double getMeanQueue() {
         return meanQueue;
+    }
+
+    public double getMeanLocked() {
+        return meanLocked;
     }
 
     public int getFailure() {
