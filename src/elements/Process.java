@@ -37,6 +37,13 @@ public class Process extends Element {
                     queue += 1;
                     return;
                 }
+
+                if (nextElement != null) {
+
+                    nextElement.inAct();
+                    return;
+                }
+
                 failure++;
             }
             case UNLOCKED -> {
