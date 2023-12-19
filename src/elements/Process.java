@@ -8,6 +8,8 @@ public class Process extends Element {
     private int queue, maxqueue, failure;
     private double meanQueue, meanLocked;
 
+    private double lockTime;
+
     public Process(double delay, String name, Distribution distribution) {
 
         super(delay, name, distribution);
@@ -15,6 +17,9 @@ public class Process extends Element {
         queue = 0;
         maxqueue = Integer.MAX_VALUE;
         meanQueue = 0.0;
+        meanLocked = 0.0;
+
+        tnext = Double.MAX_VALUE;
     }
 
     public void setMaxqueue(int maxqueue) {
@@ -37,6 +42,7 @@ public class Process extends Element {
             case UNLOCKED -> {
 
                 state = MachineState.LOCKED;
+                lockTime = tcurr;
                 tnext = tcurr + getDelay();
             }
         }
@@ -44,32 +50,38 @@ public class Process extends Element {
     @Override
     public void outAct() {
 
+        if (state == MachineState.UNLOCKED) { return; }
+
         super.outAct();
 
         tnext = Double.MAX_VALUE;
         state = MachineState.UNLOCKED;
+        meanLocked += tcurr - lockTime;
+
+        if (nextElement != null) {
+
+            nextElement.inAct();
+        }
 
         if (queue > 0) {
 
             queue -= 1;
             tnext = tcurr + getDelay();
             state = MachineState.LOCKED;
+            lockTime = tcurr;
         }
     }
 
     @Override
     public void printInfo() {
+
         super.printInfo();
-        System.out.println("failure = " + this.getFailure());
+
+        System.out.println("failure = " + failure);
     }
     @Override
     public void doStatistics(double delta) {
         meanQueue += queue * delta;
-
-        if (state == MachineState.LOCKED) {
-
-            meanLocked += delta;
-        }
     }
 
     public double getMeanQueue() {

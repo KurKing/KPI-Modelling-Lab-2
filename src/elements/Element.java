@@ -66,7 +66,7 @@ public class Element {
     }
 
     public void printResult() {
-        System.out.println(getName()+ " quantity = "+ quantity);
+        System.out.println("\n"+getName()+ " quantity = "+ quantity);
     }
     public void printInfo(){
         System.out.println(getName()+ " state = "+state+
