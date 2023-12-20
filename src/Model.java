@@ -21,11 +21,14 @@ public class Model {
                     tnext = e.getTnext();
                     nextElement = e;
                 }
+            }
+
+            for (Element e : list) {
 
                 e.doStatistics(tnext - tcurr);
             }
 
-            printEventTime(nextElement.getName(), tnext);
+            System.out.println("\n"+nextElement.getName()+"\'s time = "+tnext+"\n");
 
             tcurr = tnext;
 
@@ -47,14 +50,9 @@ public class Model {
         printResult(list, tcurr);
     }
 
-    private static void printEventTime(String eventName, double tnext) {
-
-        System.out.println("\nIt's time for event in "+eventName+", time = "+tnext);
-    }
-
     private static void printResult(List<Element> list,double tcurr) {
 
-        System.out.println("\n-------------RESULTS-------------");
+        System.out.println("\n\t\t\tRESULTS:");
 
         for (Element e : list) {
 
@@ -62,10 +60,9 @@ public class Model {
             if (e instanceof Process) {
 
                 Process p = (Process) e;
-                System.out.println("mean length of queue = "+p.getMeanQueue() / tcurr
-                        + "\nmean locked = "+p.getMeanLocked() / tcurr
-                        + "\nfailure probability = " +
-                        p.getFailure() / (double) p.getQuantity());
+                System.out.println("\tMean Length of Queue: " + p.getMeanQueue() / tcurr +
+                        "\n\tMean Locked: " + p.getMeanLocked() / tcurr +
+                        "\n\tFailure Probability: " + String.format("%.2f", Math.min(p.getFailure() / (double) p.getQuantity(), 1.0) * 100) + "%");
             }
         }
     }

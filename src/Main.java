@@ -8,16 +8,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Process p = new Process(1.0, "PROCESSOR 1", Distribution.EXPONENTIAL);
+        Process p = new Process(4.0, "PROCESSOR 1", Distribution.EXPONENTIAL);
         p.setMaxqueue(5);
+        p.allowToUseNextProcess();
 
-        Process p1 = new Process(1.0, "PROCESSOR 2", Distribution.EXPONENTIAL);
+        Process p1 = new Process(2.0, "PROCESSOR 2", Distribution.EXPONENTIAL);
         p1.setMaxqueue(5);
+//        p1.allowToUseNextProcess();
 
-        Process p2 = new Process(1.0, "PROCESSOR 3", Distribution.EXPONENTIAL);
+        Process p2 = new Process(4.0, "PROCESSOR 3", Distribution.EXPONENTIAL);
         p2.setMaxqueue(5);
 
-        Create c = new Create(3.0, "CREATOR", Distribution.EXPONENTIAL);
+        Create c = new Create(1.0, "CREATOR", Distribution.EXPONENTIAL);
 
         c.setNextElement(p);
         p.setNextElement(p1);

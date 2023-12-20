@@ -6,8 +6,10 @@ import elements.state.MachineState;
 public class Process extends Element {
 
     private int queue, maxqueue, failure;
-    private double meanQueue, meanLocked;
 
+    private boolean shouldTryToUseNextProcess = false;
+
+    private double meanQueue, meanLocked;
     private double lockTime;
 
     public Process(double delay, String name, Distribution distribution) {
@@ -26,6 +28,11 @@ public class Process extends Element {
         this.maxqueue = maxqueue;
     }
 
+    public void allowToUseNextProcess() {
+
+        shouldTryToUseNextProcess = true;
+    }
+
     @Override
     public void inAct() {
 
@@ -38,7 +45,7 @@ public class Process extends Element {
                     return;
                 }
 
-                if (nextElement != null) {
+                if (shouldTryToUseNextProcess && nextElement != null) {
 
                     nextElement.inAct();
                     return;
@@ -84,7 +91,7 @@ public class Process extends Element {
 
         super.printInfo();
 
-        System.out.println("failure = " + failure);
+        System.out.println("\tFailure: " + failure);
     }
     @Override
     public void doStatistics(double delta) {

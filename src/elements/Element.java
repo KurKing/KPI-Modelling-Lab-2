@@ -66,12 +66,12 @@ public class Element {
     }
 
     public void printResult() {
-        System.out.println("\n"+getName()+ " quantity = "+ quantity);
+        System.out.println(getName()+ "\n\tQuantity = "+ quantity);
     }
     public void printInfo(){
-        System.out.println(getName()+ " state = "+state+
-                " quantity = "+quantity+
-                " tnext = "+tnext);
+        System.out.println(getName() + "\n\tState: " + state +
+                "\n\tQuantity: " + quantity +
+                "\n\tTnext: " + tnext);
     }
     public String getName() {
         return name;
