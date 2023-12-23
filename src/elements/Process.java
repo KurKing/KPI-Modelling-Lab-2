@@ -81,6 +81,7 @@ public class Process extends Element {
         if (queue > 0) {
 
             queue -= 1;
+            quantity++;
             tnext = tcurr + getDelay();
             state = MachineState.LOCKED;
             lockTime = tcurr;
