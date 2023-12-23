@@ -2,21 +2,28 @@ package elements;
 
 import elements.distribution.Distribution;
 import elements.distribution.FunRand;
+import elements.probabilistic.ProbabilisticElementPicker;
 import elements.state.MachineState;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Element {
 
     private final String name;
     private final Distribution distribution;
 
-    protected Element nextElement;
+    private Element nextElement;
+    private final ProbabilisticElementPicker nextElementsPicker = new ProbabilisticElementPicker();
+
     protected MachineState state;
 
     protected double tnext;
     protected double delayMean, delayDev;
     protected double tcurr;
 
-    private int quantity;
+    protected int quantity;
 
     public Element(double delay, String name, Distribution distribution){
 
@@ -56,6 +63,19 @@ public class Element {
     public void setNextElement(Element nextElement) {
         this.nextElement = nextElement;
     }
+    public void addElement(double probability, Element element) {
+        nextElementsPicker.addElement(probability, element);
+    }
+    protected final Element getNextElement() {
+
+        if (nextElementsPicker.isEmpty()) {
+
+            return nextElement;
+        }
+
+        return nextElementsPicker.getElement();
+    }
+
     public void inAct() {
     }
     public void outAct() {

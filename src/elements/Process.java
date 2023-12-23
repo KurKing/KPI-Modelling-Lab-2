@@ -45,6 +45,7 @@ public class Process extends Element {
                     return;
                 }
 
+                Element nextElement = getNextElement();
                 if (shouldTryToUseNextProcess && nextElement != null) {
 
                     nextElement.inAct();
@@ -72,8 +73,8 @@ public class Process extends Element {
         state = MachineState.UNLOCKED;
         meanLocked += tcurr - lockTime;
 
+        Element nextElement = getNextElement();
         if (nextElement != null) {
-
             nextElement.inAct();
         }
 
