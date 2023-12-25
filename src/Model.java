@@ -60,10 +60,10 @@ public class Model {
             if (e instanceof Process) {
 
                 Process p = (Process) e;
-                System.out.println("\tMean Length of Queue: " + p.getMeanQueue() / tcurr +
-                        "\n\tMean Locked: " + p.getMeanLocked() / tcurr +
+                System.out.println("\tMean Length of Queue: " + String.format("%.4f", p.getMeanQueue() / tcurr) +
+                        "\n\tMean Locked: " + String.format("%.2f", Math.min(p.getMeanLocked() / tcurr, 1.0) * 100) + "%" +
                         "\n\tFailure: " + p.getFailure() +
-                        "\n\tFailure Probability: " + String.format("%.2f", Math.min(p.getFailure() / (double) p.getQuantity(), 1.0) * 100) + "%");
+                        "\n\tFailure Probability: " + String.format("%.2f", Math.min(p.getFailure() / ((double) p.getQuantity() + p.getFailure()), 1.0) * 100) + "%");
             }
         }
     }
