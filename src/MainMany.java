@@ -4,13 +4,13 @@ import elements.Process;
 
 import java.util.List;
 
-public class Main {
+public class MainMany {
 
     public static void main(String[] args) {
 
         Process p = new Process(2.0, "PROCESSOR 1", Distribution.EXPONENTIAL);
         p.setMaxqueue(5);
-        p.allowToUseNextProcess();
+//        p.allowToUseNextProcess();
 
         Process p1 = new Process(2.0, "PROCESSOR 2", Distribution.EXPONENTIAL);
         p1.setMaxqueue(5);

@@ -62,6 +62,7 @@ public class Model {
                 Process p = (Process) e;
                 System.out.println("\tMean Length of Queue: " + p.getMeanQueue() / tcurr +
                         "\n\tMean Locked: " + p.getMeanLocked() / tcurr +
+                        "\n\tFailure: " + p.getFailure() +
                         "\n\tFailure Probability: " + String.format("%.2f", Math.min(p.getFailure() / (double) p.getQuantity(), 1.0) * 100) + "%");
             }
         }
