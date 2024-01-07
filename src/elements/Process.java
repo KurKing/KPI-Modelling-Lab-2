@@ -99,6 +99,10 @@ public class Process extends Element {
         meanQueue += queue * delta;
     }
 
+    public int getQueue() {
+        return queue;
+    }
+
     public double getMeanQueue() {
         return meanQueue;
     }

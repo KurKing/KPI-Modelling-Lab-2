@@ -5,16 +5,14 @@ import elements.distribution.FunRand;
 import elements.probabilistic.ProbabilisticElementPicker;
 import elements.state.MachineState;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.List;
 
 public class Element {
 
     private final String name;
     private final Distribution distribution;
 
-    private Element nextElement;
+    protected List<Element> nextElements;
     private final ProbabilisticElementPicker nextElementsPicker = new ProbabilisticElementPicker();
 
     protected MachineState state;
@@ -35,7 +33,7 @@ public class Element {
         delayMean = delay;
         tcurr = tnext;
 
-        nextElement = null;
+        nextElements = null;
     }
 
     protected double getDelay() {
@@ -60,8 +58,8 @@ public class Element {
         this.tcurr = tcurr;
     }
 
-    public void setNextElement(Element nextElement) {
-        this.nextElement = nextElement;
+    public void setNextElement(List<Element> nextElements) {
+        this.nextElements = nextElements;
     }
     public void addElement(double probability, Element element) {
         nextElementsPicker.addElement(probability, element);
@@ -70,10 +68,15 @@ public class Element {
 
         if (nextElementsPicker.isEmpty()) {
 
-            return nextElement;
+            return chooseBestNextElement();
         }
 
         return nextElementsPicker.getElement();
+    }
+    protected Element chooseBestNextElement() {
+
+        if (nextElements == null || nextElements.isEmpty()) { return null; }
+        return nextElements.get(0);
     }
 
     public void inAct() {
