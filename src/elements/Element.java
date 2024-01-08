@@ -100,6 +100,10 @@ public class Element {
         return name;
     }
 
+    public double getDelayMean() {
+        return delayMean;
+    }
+
     public void doStatistics(double delta){
     }
 }
