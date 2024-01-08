@@ -1,3 +1,4 @@
+import elements.Create;
 import elements.Element;
 import elements.Process;
 
@@ -105,5 +106,12 @@ public class Model {
 
         System.out.println("\nGENERAL SUMM: " + (generalQuantity + generalFailure + currentlyInQueue));
         System.out.println("Mean amount: " + meanAmount / tcurr);
+
+        int rebalances = list.stream()
+                .map(element -> (element instanceof Create) ? (Create) element : null)
+                .filter(Objects::nonNull)
+                .mapToInt(Create::getNumberOfRebalances)
+                .sum();
+        System.out.println("Rebalances: " + rebalances);
     }
 }

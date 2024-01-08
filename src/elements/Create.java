@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 public class Create extends Element {
 
+    private int numberOfRebalances = 0;
+
     public Create(double delay, String name, Distribution distribution) {
 
         super(delay, name, distribution);
@@ -64,10 +66,12 @@ public class Create extends Element {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-        int currentlyInQueue = processList
-                .stream()
-                .mapToInt(Process::getQueue)
-                .sum();
+        List<Integer> queues = processList.stream()
+                                .mapToInt(Process::getQueue)
+                                .boxed()
+                                .collect(Collectors.toList());
+
+        int currentlyInQueue = queues.stream().mapToInt(Integer::intValue).sum();
 
         int processAmount = nextElements.size();
 
@@ -93,6 +97,16 @@ public class Create extends Element {
             diff--;
         }
 
+        int size = processList.size();
+        int rebalances = 0;
+        for (int i = 0; i < size; i++) {
+            int processQueue = processList.get(i).getQueue();
+            int previousQueue = queues.get(i);
+
+            rebalances += Math.abs(processQueue - previousQueue);
+        }
+        numberOfRebalances += rebalances / 2;
+
 //        int updatedInQueue = processList
 //                .stream()
 //                .mapToInt(Process::getQueue)
@@ -105,5 +119,9 @@ public class Create extends Element {
 //                    "\n\tAverage: "+average+
 //                    "\n\tDiff: "+diff);
 //        }
+    }
+
+    public int getNumberOfRebalances() {
+        return numberOfRebalances;
     }
 }
