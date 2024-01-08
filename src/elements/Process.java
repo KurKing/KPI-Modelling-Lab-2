@@ -3,6 +3,8 @@ package elements;
 import elements.distribution.Distribution;
 import elements.state.MachineState;
 
+import java.util.ArrayList;
+
 public class Process extends Element {
 
     private int queue, maxqueue, failure;
@@ -10,6 +12,9 @@ public class Process extends Element {
     private boolean shouldTryToUseNextProcess = false;
 
     private double meanQueue, meanLocked;
+    private ArrayList<Double> leaveTime = new ArrayList();
+    private double lastLeaveTime = 0;
+
     private double lockTime;
 
     public Process(double delay, String name, Distribution distribution) {
@@ -73,6 +78,9 @@ public class Process extends Element {
         state = MachineState.UNLOCKED;
         meanLocked += tcurr - lockTime;
 
+        leaveTime.add(tcurr - lastLeaveTime);
+        lastLeaveTime = tcurr;
+
         Element nextElement = getNextElement();
         if (nextElement != null) {
             nextElement.inAct();
@@ -106,6 +114,12 @@ public class Process extends Element {
         }
 
         return queue;
+    }
+
+    public double getMeanLeaveTime() {
+
+        double sum = leaveTime.stream().mapToDouble(Double::doubleValue).sum();
+        return sum / leaveTime.size();
     }
 
     public int getQueue() {
