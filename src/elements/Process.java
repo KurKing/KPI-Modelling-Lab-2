@@ -99,8 +99,21 @@ public class Process extends Element {
         meanQueue += queue * delta;
     }
 
+    public int getClientsAmount() {
+
+        if (state == MachineState.LOCKED) {
+            return queue + 1;
+        }
+
+        return queue;
+    }
+
     public int getQueue() {
         return queue;
+    }
+
+    public void setQueue(int queue) {
+        this.queue = queue;
     }
 
     public double getMeanQueue() {

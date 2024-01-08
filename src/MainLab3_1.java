@@ -10,9 +10,9 @@ public class MainLab3_1 {
 
     public static void main(String[] args) {
 
-        Create c = new Create(0.4, "CREATOR", Distribution.EXPONENTIAL);
+        Create c = new Create(0.5, "CREATOR", Distribution.EXPONENTIAL);
 
-        List<Element> processList = processList();
+        List<Element> processList = processList(2);
 
         c.setNextElement(processList);
 
@@ -22,13 +22,13 @@ public class MainLab3_1 {
         Model.simulate(combinedList, 50.0);
     }
 
-    private static List<Element> processList() {
+    private static List<Element> processList(int amount) {
 
         ArrayList<Element> processArrayList = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < amount; i++) {
 
-            Process p = new Process(10.0, "PROCESSOR " + (i + 1), Distribution.EXPONENTIAL);
+            Process p = new Process(0.3, "PROCESSOR " + (i + 1), Distribution.EXPONENTIAL);
             p.setMaxqueue(3);
 
             processArrayList.add(p);
