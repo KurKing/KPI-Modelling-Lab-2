@@ -3,10 +3,18 @@ import elements.Process;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Model {
 
+    private static double meanAmount = 0;
+
     public static void simulate(List<Element> list, double time) {
+
+        List<Process> processList = list.stream()
+                .map(element -> (element instanceof Process) ? (Process) element : null)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
         double tcurr = 0.0;
         Element nextElement = null;
@@ -29,7 +37,9 @@ public class Model {
                 e.doStatistics(tnext - tcurr);
             }
 
-            System.out.println("\n"+nextElement.getName()+"\'s time = "+tnext+"\n");
+            meanAmount += processList.stream().mapToInt(Process::getClientsAmount).sum() * (tnext - tcurr);
+
+//            System.out.println("\n"+nextElement.getName()+"\'s time = "+tnext+"\n");
 
             tcurr = tnext;
 
@@ -44,14 +54,14 @@ public class Model {
                     e.outAct();
                 }
 
-                e.printInfo();
+//                e.printInfo();
             }
         }
 
         printResult(list, tcurr);
     }
 
-    private static void printResult(List<Element> list,double tcurr) {
+    private static void printResult(List<Element> list, double tcurr) {
 
         System.out.println("\n\t\t\tRESULTS:");
 
@@ -92,5 +102,6 @@ public class Model {
                 "\n\tIn queue: " + currentlyInQueue);
 
         System.out.println("\nGENERAL SUMM: " + (generalQuantity + generalFailure + currentlyInQueue));
+        System.out.println("Mean amount: " + meanAmount / tcurr);
     }
 }
