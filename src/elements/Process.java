@@ -34,7 +34,6 @@ public class Process extends Element {
     }
 
     public void allowToUseNextProcess() {
-
         shouldTryToUseNextProcess = true;
     }
 

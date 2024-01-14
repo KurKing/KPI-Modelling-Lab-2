@@ -4,15 +4,15 @@ public enum Patient {
 
     FIRST_TYPE, SECOND_TYPE, THIRD_TYPE;
 
-    public double getCreationDelay() {
+    public double getRegistryTime() {
 
         switch (this) {
             case FIRST_TYPE:
-                return 0.5;
+                return 15;
             case SECOND_TYPE:
-                return 0.1;
+                return 40;
             case THIRD_TYPE:
-                return 0.4;
+                return 30;
         }
 
         return 0.0;

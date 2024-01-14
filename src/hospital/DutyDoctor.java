@@ -13,8 +13,8 @@ public class DutyDoctor extends Process  {
 
     private List<Element> registration;
 
-    public DutyDoctor(double delay, String name, Distribution distribution) {
-        super(delay, name, distribution);
+    public DutyDoctor(String name, Distribution distribution) {
+        super(0, name, distribution);
     }
 
     public void inAct(Patient patientType) {
@@ -91,6 +91,12 @@ public class DutyDoctor extends Process  {
     @Override
     public int getQueue() {
         return queueType1 + queueType2 + queueType3;
+    }
+
+    @Override
+    protected double getDelay() {
+
+        return currentPatient.getRegistryTime();
     }
 
     public void setRegistration(List<Element> registration) {

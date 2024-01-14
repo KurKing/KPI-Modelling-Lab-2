@@ -68,6 +68,8 @@ public class Model {
 
         for (Element e : list) {
 
+            if (e.getName().contains("HALL")) { continue; }
+
             e.printResult();
             if (e instanceof Process) {
 

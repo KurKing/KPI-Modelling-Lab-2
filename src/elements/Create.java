@@ -28,13 +28,6 @@ public class Create extends Element {
     }
 
     @Override
-    public void inAct() {
-
-        rebalanceLines();
-        inActNextElement();
-    }
-
-    @Override
     public void outAct() {
 
         super.outAct();

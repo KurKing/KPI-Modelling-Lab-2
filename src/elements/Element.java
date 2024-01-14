@@ -108,6 +108,10 @@ public class Element {
         return delayMean;
     }
 
+    public void setDelayDev(double delayDev) {
+        this.delayDev = delayDev;
+    }
+
     public void doStatistics(double delta){
     }
 }
