@@ -11,7 +11,7 @@ public class MainSingleLab2 {
         Process p = new Process(2.0, "PROCESSOR 1", Distribution.EXPONENTIAL);
         p.setMaxqueue(5);
 
-        Create c = new Create(1.0, "CREATOR", Distribution.EXPONENTIAL);
+        Create c = new Create(1.0, "CREATOR", Distribution.EXPONENTIAL, true);
 
         c.setNextElement(List.of(p));
 

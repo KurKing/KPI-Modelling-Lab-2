@@ -9,12 +9,29 @@ import java.util.stream.Collectors;
 public class Create extends Element {
 
     private int numberOfRebalances = 0;
+    private final Boolean shouldRebalanceLines;
+
+    public Create(double delay, String name, Distribution distribution, Boolean shouldRebalanceLines) {
+
+        super(delay, name, distribution);
+
+        tnext = 0.0;
+        this.shouldRebalanceLines = shouldRebalanceLines;
+    }
 
     public Create(double delay, String name, Distribution distribution) {
 
         super(delay, name, distribution);
 
         tnext = 0.0;
+        this.shouldRebalanceLines = false;
+    }
+
+    @Override
+    public void inAct() {
+
+        rebalanceLines();
+        inActNextElement();
     }
 
     @Override
@@ -25,11 +42,16 @@ public class Create extends Element {
         rebalanceLines();
 
         tnext = tcurr + getDelay();
+        inActNextElement();
+    }
+
+    protected void inActNextElement() {
+
         getNextElement().inAct();
     }
 
     @Override
-    protected Element chooseBestNextElement() {
+    protected Element chooseBestNextElement(List<Element> nextElements) {
 
         if (nextElements == null || nextElements.isEmpty()) { return null; }
 
@@ -60,6 +82,8 @@ public class Create extends Element {
     }
 
     private void rebalanceLines() {
+
+        if (!shouldRebalanceLines) { return; }
 
         List<Process> processList = nextElements.stream()
                 .map(element -> (element instanceof Process) ? (Process) element : null)

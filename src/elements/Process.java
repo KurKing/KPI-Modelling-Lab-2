@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Process extends Element {
 
-    private int queue, maxqueue, failure;
+    protected int queue, maxqueue, failure;
 
     private boolean shouldTryToUseNextProcess = false;
 
@@ -15,7 +15,7 @@ public class Process extends Element {
     private ArrayList<Double> leaveTime = new ArrayList();
     private double lastLeaveTime = 0;
 
-    private double lockTime;
+    protected double lockTime;
 
     public Process(double delay, String name, Distribution distribution) {
 
@@ -40,33 +40,36 @@ public class Process extends Element {
 
     @Override
     public void inAct() {
-
         switch (state) {
-            case LOCKED -> {
-
-                if (queue < maxqueue) {
-
-                    queue += 1;
-                    return;
-                }
-
-                Element nextElement = getNextElement();
-                if (shouldTryToUseNextProcess && nextElement != null) {
-
-                    nextElement.inAct();
-                    return;
-                }
-
-                failure++;
-            }
-            case UNLOCKED -> {
-
-                state = MachineState.LOCKED;
-                lockTime = tcurr;
-                tnext = tcurr + getDelay();
-            }
+            case LOCKED -> { inActForLOCKEDState(); }
+            case UNLOCKED -> { inActForUNLOCKEDState(); }
         }
     }
+
+    protected void inActForLOCKEDState() {
+
+        if (queue < maxqueue) {
+
+            queue += 1;
+            return;
+        }
+
+        Element nextElement = getNextElement();
+        if (shouldTryToUseNextProcess && nextElement != null) {
+
+            nextElement.inAct();
+            return;
+        }
+
+        failure++;
+    }
+    protected void inActForUNLOCKEDState() {
+
+        state = MachineState.LOCKED;
+        lockTime = tcurr;
+        tnext = tcurr + getDelay();
+    }
+
     @Override
     public void outAct() {
 

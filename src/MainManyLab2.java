@@ -19,7 +19,7 @@ public class MainManyLab2 {
         Process p2 = new Process(1.0, "PROCESSOR 3", Distribution.EXPONENTIAL);
         p2.setMaxqueue(5);
 
-        Create c = new Create(2.0, "CREATOR", Distribution.EXPONENTIAL);
+        Create c = new Create(2.0, "CREATOR", Distribution.EXPONENTIAL, true);
 
         c.setNextElement(List.of(p));
         p.setNextElement(List.of(p1));

@@ -75,6 +75,10 @@ public class Element {
     }
     protected Element chooseBestNextElement() {
 
+        return chooseBestNextElement(nextElements);
+    }
+    protected Element chooseBestNextElement(List<Element> nextElements) {
+
         if (nextElements == null || nextElements.isEmpty()) { return null; }
         return nextElements.get(0);
     }
