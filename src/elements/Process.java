@@ -84,17 +84,22 @@ public class Process extends Element {
         leaveTime.add(tcurr - lastLeaveTime);
         lastLeaveTime = tcurr;
 
+        inActNextElement();
+        pickUpEventFromQueue();
+    }
+    protected void inActNextElement() {
+
         Element nextElement = getNextElement();
         if (nextElement != null) {
             nextElement.inAct();
         }
+    }
+    protected void pickUpEventFromQueue() {
 
         if (queue > 0) {
 
             queue -= 1;
-            tnext = tcurr + getDelay();
-            state = MachineState.LOCKED;
-            lockTime = tcurr;
+            inActForUNLOCKEDState();
         }
     }
 
@@ -107,16 +112,16 @@ public class Process extends Element {
     }
     @Override
     public void doStatistics(double delta) {
-        meanQueue += queue * delta;
+        meanQueue += getQueue() * delta;
     }
 
     public int getClientsAmount() {
 
         if (state == MachineState.LOCKED) {
-            return queue + 1;
+            return getQueue() + 1;
         }
 
-        return queue;
+        return getQueue();
     }
 
     public double getMeanLeaveTime() {
