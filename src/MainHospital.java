@@ -15,10 +15,11 @@ public class MainHospital {
 
         PatientCreator creator = new PatientCreator(15, "CREATOR", Distribution.EXPONENTIAL);
 
-        List<DutyDoctor> dutyDoctors = List.of(
-            new DutyDoctor("DUTY 1", Distribution.EXPONENTIAL),
-            new DutyDoctor("DUTY 2", Distribution.EXPONENTIAL)
-        );
+        List<DutyDoctor> dutyDoctors = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            dutyDoctors.add(new DutyDoctor("DUTY "+(i+1), Distribution.EXPONENTIAL));
+        }
+
         List<Element> dutyDoctorsElement = new ArrayList<>();
         for (DutyDoctor doctor: dutyDoctors) {
             dutyDoctorsElement.add(doctor);
