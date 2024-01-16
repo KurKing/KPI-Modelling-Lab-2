@@ -56,7 +56,7 @@ public class MainHospital {
 
         List<Element> laborants = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            Laborant p = new Laborant(2, "LABORANT " + (i+1), Distribution.ERLANG, 0.5);
+            Laborant p = new Laborant(2, "LABORANT " + (i+1), Distribution.ERLANG, 0.8);
             p.setDelayDev(4);
             p.setNextElement(registrationToDutyHall);
             laborants.add(p);
@@ -77,11 +77,15 @@ public class MainHospital {
 
         double tcurr = Model.simulate(combinedList, 10000.0);
 
+        System.out.println("\nPATIENT CREATOR:\n\tIn act amount: "+creator.getInActAmount());
+//        System.out.println("\nPATIENT CREATOR:\n\tIn act amount: "+creator.getInActAmount()+
+//                "\n\tCreations: "+creator.creationAmountStats());
+
         System.out.println("\nTIME for 1: "+formatMinutesToHoursAndMinutes(getSumTime(List.of(
                 dutyDoctorsElement,
                 accompanying
         ), tcurr)));
-        System.out.println("TIME for 2 and 3: "+formatMinutesToHoursAndMinutes(getSumTime(List.of(
+        System.out.println("TIME for 2: "+formatMinutesToHoursAndMinutes(getSumTime(List.of(
                 dutyDoctorsElement,
                 dutyToRegistrationHall,
                 registration,
@@ -89,6 +93,12 @@ public class MainHospital {
                 registrationToDutyHall,
                 dutyDoctorsElement,
                 accompanying
+        ), tcurr)));
+        System.out.println("TIME for 3: "+formatMinutesToHoursAndMinutes(getSumTime(List.of(
+                dutyDoctorsElement,
+                dutyToRegistrationHall,
+                registration,
+                laborants
         ), tcurr)));
     }
 
