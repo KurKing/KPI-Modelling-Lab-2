@@ -45,6 +45,8 @@ public class Element {
                 return FunRand.Norm(delayMean, delayDev);
             case UNIFORM:
                 return FunRand.Unif(delayMean, delayDev);
+            case ERLANG:
+                return FunRand.Erlang(delayMean, delayDev);
             default:
                 return delayMean;
         }

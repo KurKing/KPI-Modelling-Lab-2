@@ -33,12 +33,12 @@ public class MainHospital {
 
         List<Element> registration = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            // ERLANG
-            Process p = new Process(8, "REGISTRATION " + (i+1), Distribution.EXPONENTIAL);
+            Process p = new Process(3, "REGISTRATION " + (i+1), Distribution.ERLANG);
+            p.setDelayDev(4.5);
             registration.add(p);
         }
 
-        List<Element> dutyToRegistrationHall = getHall(2, 5);
+        List<Element> dutyToRegistrationHall = getHall(2, 5, "from duty");
         for (Element hall: dutyToRegistrationHall) {
             hall.setNextElement(registration);
         }
@@ -48,37 +48,41 @@ public class MainHospital {
             dutyDoctor.setRegistration(dutyToRegistrationHall);
         }
 
-        List<Element> registrationToDutyHall = getHall(2, 5);
-        for (Element hall: dutyToRegistrationHall) {
+        List<Element> registrationToDutyHall = getHall(2, 5, "from registration");
+        for (Element hall: registrationToDutyHall) {
             hall.setNextElement(List.of(creator));
         }
 
         List<Element> laborants = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            // ERLANG
-            Laborant p = new Laborant(8, "LABORANT " + (i+1), Distribution.EXPONENTIAL, 0.5);
+            Laborant p = new Laborant(2, "LABORANT " + (i+1), Distribution.ERLANG, 0.5);
+            p.setDelayDev(4);
             p.setNextElement(registrationToDutyHall);
             laborants.add(p);
+        }
+
+        for (Element r: registration) {
+            r.setNextElement(laborants);
         }
 
         List<Element> combinedList = new ArrayList<>();
         combinedList.add(creator);
         combinedList.addAll(dutyDoctorsElement);
         combinedList.addAll(accompanying);
-        combinedList.addAll(registration);
         combinedList.addAll(dutyToRegistrationHall);
+        combinedList.addAll(registration);
         combinedList.addAll(registrationToDutyHall);
         combinedList.addAll(laborants);
 
         Model.simulate(combinedList, 10000.0);
     }
 
-    private static List<Element> getHall(double delay, double dev) {
+    private static List<Element> getHall(double delay, double dev, String name) {
 
         List<Element> halls = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 3; i++) {
 
-            Process p = new Process(delay, "HALL", Distribution.NORMAL);
+            Process p = new Process(delay, "HALL "+name, Distribution.NORMAL);
             p.setDelayDev(dev);
             halls.add(p);
         }

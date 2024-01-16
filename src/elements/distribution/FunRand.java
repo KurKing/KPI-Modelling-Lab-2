@@ -54,4 +54,24 @@ public class FunRand {
 
         return a;
     }
+
+    /**
+     * Generates a random value according to an Erlang distribution.
+     *
+     * @param shape         shape parameter (integer)
+     * @param scale         scale parameter (double)
+     * @return a random value according to an Erlang distribution
+     */
+    public static double Erlang(double shape, double scale) {
+
+        double sum = 0;
+        Random r = new Random();
+
+        for (int i = 0; i < shape; i++) {
+            double exponential = -scale * Math.log(r.nextDouble());
+            sum += exponential;
+        }
+
+        return sum;
+    }
 }
