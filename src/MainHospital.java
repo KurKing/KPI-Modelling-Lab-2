@@ -128,7 +128,11 @@ public class MainHospital {
         return list.stream()
                 .map(element -> (element instanceof Process) ? (Process) element : null)
                 .filter(Objects::nonNull)
-                .mapToDouble(Process::getMeanLeaveTime)
+                .mapToDouble(p -> {
+
+                    double v = (p.getMeanQueue() / tcurr + 1) * p.getDelayMean();
+                    return v;
+                })
                 .filter(value -> !Double.isNaN(value))
                 .max()
                 .orElse(0.0);

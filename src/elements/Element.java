@@ -79,12 +79,40 @@ public class Element {
 
         return chooseBestNextElement(nextElements);
     }
+
     protected Element chooseBestNextElement(List<Element> nextElements) {
+
+        if (nextElements == null || nextElements.isEmpty()) { return null; }
+
+        if (nextElements.size() == 1) { return nextElements.get(0); }
+
+        Process currentBest = null;
+
+        for (Element element : nextElements) {
+
+            Process process = (Process) element;
+            if (process == null) { continue; }
+
+            if (process.getQueue() == 0) { return process; }
+
+            if (currentBest == null) {
+
+                currentBest = process;
+                continue;
+            }
+
+            if (currentBest.getQueue() > process.getQueue()) {
+                currentBest = process;
+            }
+        }
+
+        if (currentBest != null) {
+            return currentBest;
+        }
 
         if (nextElements == null || nextElements.isEmpty()) { return null; }
         return nextElements.get(0);
     }
-
     public void inAct() {
     }
     public void outAct() {
@@ -107,6 +135,11 @@ public class Element {
     }
 
     public double getDelayMean() {
+
+        if (delayDev > 0) {
+            return (delayMean + delayDev) / 2;
+        }
+
         return delayMean;
     }
 

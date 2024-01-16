@@ -9,6 +9,8 @@ import java.util.List;
 public class DutyDoctor extends Process  {
 
     private int queueType1, queueType2, queueType3;
+    private int type1Executed, type2Executed, type3Executed;
+
     private Patient currentPatient;
 
     private List<Element> registration;
@@ -89,6 +91,18 @@ public class DutyDoctor extends Process  {
     }
 
     @Override
+    protected void inActForUNLOCKEDState() {
+
+        switch (currentPatient) {
+            case FIRST_TYPE -> type1Executed += 1;
+            case SECOND_TYPE -> type2Executed += 1;
+            case THIRD_TYPE -> type3Executed += 1;
+        }
+
+        super.inActForUNLOCKEDState();
+    }
+
+    @Override
     public int getQueue() {
         return queueType1 + queueType2 + queueType3;
     }
@@ -100,5 +114,13 @@ public class DutyDoctor extends Process  {
 
     public void setRegistration(List<Element> registration) {
         this.registration = registration;
+    }
+
+    @Override
+    public double getDelayMean() {
+
+        return (Patient.FIRST_TYPE.getRegistryTime() * type1Executed +
+                Patient.SECOND_TYPE.getRegistryTime() * type2Executed +
+                Patient.THIRD_TYPE.getRegistryTime() * type3Executed) / (type1Executed + type2Executed + type3Executed);
     }
 }

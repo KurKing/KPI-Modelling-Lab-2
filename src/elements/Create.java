@@ -43,37 +43,6 @@ public class Create extends Element {
         getNextElement().inAct();
     }
 
-    @Override
-    protected Element chooseBestNextElement(List<Element> nextElements) {
-
-        if (nextElements == null || nextElements.isEmpty()) { return null; }
-
-        Process currentBest = null;
-
-        for (Element element : nextElements) {
-
-            Process process = (Process) element;
-            if (process == null) { continue; }
-
-            if (process.getQueue() == 0) { return process; }
-
-            if (currentBest == null) {
-
-                currentBest = process;
-                continue;
-            }
-
-            if (currentBest.getQueue() > process.getQueue()) {
-                currentBest = process;
-            }
-        }
-
-        if (currentBest != null) {
-            return currentBest;
-        }
-        return super.chooseBestNextElement();
-    }
-
     private void rebalanceLines() {
 
         if (!shouldRebalanceLines) { return; }
