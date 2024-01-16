@@ -7,6 +7,7 @@ import hospital.PatientCreator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainHospital {
 
@@ -74,7 +75,21 @@ public class MainHospital {
         combinedList.addAll(registrationToDutyHall);
         combinedList.addAll(laborants);
 
-        Model.simulate(combinedList, 10000.0);
+        double tcurr = Model.simulate(combinedList, 10000.0);
+
+        System.out.println("\nTIME for 1: "+formatMinutesToHoursAndMinutes(getSumTime(List.of(
+                dutyDoctorsElement,
+                accompanying
+        ), tcurr)));
+        System.out.println("TIME for 2 and 3: "+formatMinutesToHoursAndMinutes(getSumTime(List.of(
+                dutyDoctorsElement,
+                dutyToRegistrationHall,
+                registration,
+                laborants,
+                registrationToDutyHall,
+                dutyDoctorsElement,
+                accompanying
+        ), tcurr)));
     }
 
     private static List<Element> getHall(double delay, double dev, String name) {
@@ -88,5 +103,31 @@ public class MainHospital {
         }
 
         return halls;
+    }
+
+    private static double getSumTime(List<List<Element>> items, double tcurr) {
+
+        return items.stream()
+                .mapToDouble(item -> getAverageMeanTimeOfList(item, tcurr))
+                .sum();
+    }
+
+    private static double getAverageMeanTimeOfList(List<Element> list, double tcurr) {
+
+        return list.stream()
+                .map(element -> (element instanceof Process) ? (Process) element : null)
+                .filter(Objects::nonNull)
+                .mapToDouble(Process::getMeanLeaveTime)
+                .filter(value -> !Double.isNaN(value))
+                .max()
+                .orElse(0.0);
+    }
+
+    public static String formatMinutesToHoursAndMinutes(double minutes) {
+
+        long minutesLong = (long) minutes;
+        long hours = minutesLong / 60;
+        long remainingMinutes = minutesLong % 60;
+        return String.format("%02d:%02d", hours, remainingMinutes);
     }
 }

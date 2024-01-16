@@ -10,7 +10,7 @@ public class Model {
 
     private static double meanAmount = 0;
 
-    public static void simulate(List<Element> list, double time) {
+    public static double simulate(List<Element> list, double time) {
 
         List<Process> processList = list.stream()
                 .map(element -> (element instanceof Process) ? (Process) element : null)
@@ -60,6 +60,7 @@ public class Model {
         }
 
         printResult(list, tcurr);
+        return tcurr;
     }
 
     private static void printResult(List<Element> list, double tcurr) {

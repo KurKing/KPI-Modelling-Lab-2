@@ -95,7 +95,6 @@ public class DutyDoctor extends Process  {
 
     @Override
     protected double getDelay() {
-
         return currentPatient.getRegistryTime();
     }
 
