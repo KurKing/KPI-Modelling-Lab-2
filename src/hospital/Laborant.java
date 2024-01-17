@@ -21,4 +21,9 @@ public class Laborant extends Process {
         if (random.nextDouble() < goHomeProbability) { return; }
         super.inActNextElement();
     }
+
+    @Override
+    public double getDelayMean() {
+        return 8.04;
+    }
 }

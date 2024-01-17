@@ -107,7 +107,7 @@ public class Model {
                 "\n\tFailure Probability: " + String.format("%.2f", Math.min(generalFailure / ((double) generalQuantity + generalFailure), 1.0) * 100) + "%" +
                 "\n\tIn queue: " + currentlyInQueue);
 
-        System.out.println("\nGENERAL SUMM: " + (generalQuantity + generalFailure + currentlyInQueue));
+        System.out.println("GENERAL SUMM: " + (generalQuantity + generalFailure + currentlyInQueue));
         System.out.println("Mean amount: " + meanAmount / tcurr);
 
         int rebalances = list.stream()

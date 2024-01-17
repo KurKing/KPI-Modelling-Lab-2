@@ -4,6 +4,7 @@ import elements.distribution.Distribution;
 import hospital.DutyDoctor;
 import hospital.Laborant;
 import hospital.PatientCreator;
+import hospital.Registation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class MainHospital {
 
         List<Element> registration = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            Process p = new Process(3, "REGISTRATION " + (i+1), Distribution.ERLANG);
+            Process p = new Registation(3, "REGISTRATION " + (i+1), Distribution.ERLANG);
             p.setDelayDev(4.5);
             registration.add(p);
         }
@@ -106,7 +107,7 @@ public class MainHospital {
     private static List<Element> getHall(double delay, double dev, String name) {
 
         List<Element> halls = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 100; i++) {
 
             Process p = new Process(delay, "HALL "+name, Distribution.NORMAL);
             p.setDelayDev(dev);
@@ -133,10 +134,10 @@ public class MainHospital {
                     double timeInProccess = (p.getMeanQueue() / tcurr + 1) * p.getDelayMean();
                     double leaveTime = p.getMeanLeaveTime();
 
-                    if (!Double.isNaN(leaveTime)) {
-
-                        return Math.min(leaveTime, timeInProccess);
-                    }
+//                    if (!Double.isNaN(leaveTime)) {
+//
+//                        return Math.min(leaveTime, timeInProccess);
+//                    }
 
                     return timeInProccess;
                 })
