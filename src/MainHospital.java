@@ -76,7 +76,7 @@ public class MainHospital {
         combinedList.addAll(registrationToDutyHall);
         combinedList.addAll(laborants);
 
-        double tcurr = Model.simulate(combinedList, 10000.0);
+        double tcurr = Model.simulate(combinedList, 900);
 
         System.out.println("\nPATIENT CREATOR:\n\tIn act amount: "+creator.getInActAmount());
 //        System.out.println("\nPATIENT CREATOR:\n\tIn act amount: "+creator.getInActAmount()+
@@ -130,8 +130,15 @@ public class MainHospital {
                 .filter(Objects::nonNull)
                 .mapToDouble(p -> {
 
-                    double v = (p.getMeanQueue() / tcurr + 1) * p.getDelayMean();
-                    return v;
+                    double timeInProccess = (p.getMeanQueue() / tcurr + 1) * p.getDelayMean();
+                    double leaveTime = p.getMeanLeaveTime();
+
+                    if (!Double.isNaN(leaveTime)) {
+
+                        return Math.min(leaveTime, timeInProccess);
+                    }
+
+                    return timeInProccess;
                 })
                 .filter(value -> !Double.isNaN(value))
                 .max()
