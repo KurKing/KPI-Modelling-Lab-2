@@ -80,39 +80,39 @@ public class Element {
         return chooseBestNextElement(nextElements);
     }
 
-    protected Element chooseBestNextElement(List<Element> nextElements) {
+protected Element chooseBestNextElement(List<Element> nextElements) {
 
-        if (nextElements == null || nextElements.isEmpty()) { return null; }
+    if (nextElements == null || nextElements.isEmpty()) { return null; }
 
-        if (nextElements.size() == 1) { return nextElements.get(0); }
+    if (nextElements.size() == 1) { return nextElements.get(0); }
 
-        Process currentBest = null;
+    Process currentBest = null;
 
-        for (Element element : nextElements) {
+    for (Element element : nextElements) {
 
-            Process process = (Process) element;
-            if (process == null) { continue; }
+        Process process = (Process) element;
+        if (process == null) { continue; }
 
-            if (process.getQueue() == 0) { return process; }
+        if (process.getQueue() == 0) { return process; }
 
-            if (currentBest == null) {
+        if (currentBest == null) {
 
-                currentBest = process;
-                continue;
-            }
-
-            if (currentBest.getQueue() > process.getQueue()) {
-                currentBest = process;
-            }
+            currentBest = process;
+            continue;
         }
 
-        if (currentBest != null) {
-            return currentBest;
+        if (currentBest.getQueue() > process.getQueue()) {
+            currentBest = process;
         }
-
-        if (nextElements == null || nextElements.isEmpty()) { return null; }
-        return nextElements.get(0);
     }
+
+    if (currentBest != null) {
+        return currentBest;
+    }
+
+    if (nextElements == null || nextElements.isEmpty()) { return null; }
+    return nextElements.get(0);
+}
     public void inAct() {
     }
     public void outAct() {

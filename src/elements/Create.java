@@ -92,19 +92,6 @@ public class Create extends Element {
             rebalances += Math.abs(processQueue - previousQueue);
         }
         numberOfRebalances += rebalances / 2;
-
-//        int updatedInQueue = processList
-//                .stream()
-//                .mapToInt(Process::getQueue)
-//                .sum();
-//
-//        if (updatedInQueue != currentlyInQueue) {
-//
-//            System.out.println("Rebalance lines: \n\tCurrently in queue: "+currentlyInQueue+
-//                    "\n\tUpdated in queue: "+updatedInQueue+
-//                    "\n\tAverage: "+average+
-//                    "\n\tDiff: "+diff);
-//        }
     }
 
     public int getNumberOfRebalances() {

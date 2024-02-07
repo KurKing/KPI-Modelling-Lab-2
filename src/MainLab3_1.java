@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainLab3_1 {
-
     public static void main(String[] args) {
 
         Create c = new Create(0.5, "CREATOR", Distribution.EXPONENTIAL, true);
-
         List<Element> processList = processList(2);
 
         c.setNextElement(processList);
@@ -21,19 +19,14 @@ public class MainLab3_1 {
 
         Model.simulate(combinedList, 50.0);
     }
-
     private static List<Element> processList(int amount) {
 
         ArrayList<Element> processArrayList = new ArrayList<>();
-
         for (int i = 0; i < amount; i++) {
-
-            Process p = new Process(10.3, "БАНКІР №" + (i + 1), Distribution.EXPONENTIAL);
+            Process p = new Process(0.3, "БАНКІР №" + (i + 1), Distribution.EXPONENTIAL);
             p.setMaxqueue(3);
-
             processArrayList.add(p);
         }
-
         return processArrayList;
     }
 }

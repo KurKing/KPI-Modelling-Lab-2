@@ -12,6 +12,10 @@ public class Model {
 
     public static double simulate(List<Element> list, double time) {
 
+        return simulate(list, time, true);
+    }
+    public static double simulate(List<Element> list, double time, boolean shouldPrintLogs) {
+
         List<Process> processList = list.stream()
                 .map(element -> (element instanceof Process) ? (Process) element : null)
                 .filter(Objects::nonNull)
@@ -59,7 +63,9 @@ public class Model {
             }
         }
 
-        printResult(list, tcurr);
+        if (shouldPrintLogs) {
+            printResult(list, tcurr);
+        }
         return tcurr;
     }
 
